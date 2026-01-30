@@ -39,11 +39,11 @@
     </text>
 
 
-    <text id="textday" x="600" y="75" style="text-anchor:middle;font-weight:600;font-size:47px;line-height:0%;font-family:sans-serif;">DAY_NAME</text>
+    <text id="textday" x="600" y="148" style="text-anchor:middle;font-weight:600;font-size:47px;line-height:0%;font-family:sans-serif;">DAY_NAME</text>
 
-    <text id="textdate" x="600" y="130" style="text-anchor:middle;font-size:40px;line-height:0%;font-family:sans-serif;">DAY_ONE</text>
+    <text id="textdate" x="600" y="203" style="text-anchor:middle;font-size:40px;line-height:0%;font-family:sans-serif;">DAY_ONE</text>
 
-    <text id="texttime" x="20" y="125" font-size="TIME_NOW_FONT_SIZE" style="font-weight:bold;line-height:0%;font-family:sans-serif;text-anchor:beginning">TIME_NOW</text>
+    <text id="texttime" x="20" y="148" font-size="TIME_NOW_FONT_SIZE" style="font-weight:bold;line-height:0%;font-family:sans-serif;text-anchor:beginning">TIME_NOW</text>
 
     <use id="customdata" href="screen-output-custom-temp.svg" />
 
