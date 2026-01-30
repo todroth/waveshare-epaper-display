@@ -127,7 +127,9 @@ The application supports localization through two environment variables:
 
 - **LANG**: Controls date/time formatting via Python's locale system (e.g., `de_DE.UTF-8`, `en_US.UTF-8`)
   - Used by `utility.get_formatted_time()` and `utility.get_formatted_date()`
-  - Uses `babel` for time formatting and `humanize` for natural language dates
+  - Uses `babel.dates.format_date()` for locale-aware date formatting (e.g., "Fr, 6. Feb" in German)
+  - Uses `babel.dates.format_time()` for time formatting
+  - Uses `humanize` for natural language dates (today/tomorrow/yesterday in local language)
 
 - **WEATHER_LANGUAGE**: Controls weather description language (e.g., `en`, `de`)
   - Passed to weather providers that support language parameters

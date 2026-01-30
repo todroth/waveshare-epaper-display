@@ -108,16 +108,26 @@ As needed, change the temperature format (CELSIUS or FAHRENHEIT).
     export WEATHER_LONGITUDE=0.1963
     export WEATHER_FORMAT=CELSIUS
 
-Optionally, you can also set the language for weather descriptions:
+Optionally, you can also set the language for weather descriptions and date/time formatting:
 
     export WEATHER_LANGUAGE=de
+    export LANG=de_DE.UTF-8
 
 Supported languages:
 - `en` - English (default)
 - `de` - German (Deutsch)
 - Other language codes depending on your weather provider (e.g., OpenWeatherMap supports many languages)
 
-Note: Not all weather providers support all languages. OpenWeatherMap supports a wide range of languages, while Brightsky currently supports English and German.
+The `LANG` variable controls:
+- Date formatting in calendar entries (e.g., "Fr, 6. Feb" in German vs "Fri Feb 6" in English)
+- Time formatting (24-hour vs 12-hour)
+- Day names (Montag, Dienstag, etc. in German)
+- Natural language dates (Heute, Morgen, Gestern)
+
+The `WEATHER_LANGUAGE` variable controls:
+- Weather condition descriptions (e.g., "Neblig" vs "Foggy")
+
+Note: Not all weather providers support all languages. OpenWeatherMap supports a wide range of languages, while Brightsky currently supports English and German. Make sure the locale you choose is installed on your system (check with `locale -a`).
 
 ## Pick a Weather provider
 

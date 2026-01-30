@@ -13,7 +13,7 @@ from astral import LocationInfo
 from astral.sun import sun
 import humanize
 import locale
-from babel.dates import format_time
+from babel.dates import format_time, format_date
 
 
 def configure_locale():
@@ -158,7 +158,6 @@ def get_formatted_date(dt, include_time=True):
     yesterday = today - datetime.timedelta(days=1)
     tomorrow = today + datetime.timedelta(days=1)
     next_week = today + datetime.timedelta(days=7)
-    formatter_day = "%a %b %-d"
 
     # Display the time in the locale format, if possible
     if include_time:
@@ -167,25 +166,45 @@ def get_formatted_date(dt, include_time=True):
         formatted_time = " "
 
     try:
-        short_locale = locale.getlocale()[0]  # en_GB
-        short_locale = short_locale.split("_")[0]  # en
-        if not short_locale == "en":
+        current_locale = locale.getlocale()[0]  # de_DE, en_GB, etc.
+        short_locale = current_locale.split("_")[0] if current_locale else "en"  # de, en, etc.
+        if short_locale != "en":
             humanize.activate(short_locale)
         has_locale = True
     except Exception:
         logging.debug("Locale not found for humanize")
         has_locale = False
+        current_locale = None
+        short_locale = "en"
 
+    # Check if this is today/tomorrow/yesterday
     if (has_locale and
             (dt.date() == today.date()
              or dt.date() == tomorrow.date()
              or dt.date() == yesterday.date())):
-        # Show today/tomorrow/yesterday if available
+        # Show today/tomorrow/yesterday in the appropriate language
         formatter_day = humanize.naturalday(dt.date(), "%A").title()
     elif dt.date() < next_week.date():
         # Just show the day name if it's in the next few days
-        formatter_day = "%A"
-    return dt.strftime(formatter_day + " " + formatted_time)
+        formatter_day = dt.strftime("%A")
+    else:
+        # For dates further out, use babel for proper locale formatting
+        try:
+            # Use babel to format the date in the user's locale
+            # Format: "EEE, d. MMM" for German (e.g., "Fr, 6. Feb")
+            # Format: "EEE MMM d" for English (e.g., "Fri Feb 6")
+            if short_locale == "de":
+                # German format: "Fr, 6. Feb"
+                formatter_day = format_date(dt, format="EEE, d. MMM", locale=current_locale)
+            else:
+                # English and other locales: "Fri Feb 6"
+                formatter_day = format_date(dt, format="EEE MMM d", locale=current_locale)
+        except Exception as e:
+            logging.debug(f"Babel date formatting failed: {e}, falling back to strftime")
+            # Fallback to strftime if babel fails
+            formatter_day = dt.strftime("%a %b %-d")
+
+    return formatter_day + " " + formatted_time
 
 
 def get_sunset_time():
