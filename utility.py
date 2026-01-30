@@ -153,6 +153,118 @@ def get_formatted_time(dt):
     return formatted_time
 
 
+def get_word_clock_time(dt):
+    """
+    Convert time to German word clock format with 5-minute resolution.
+    Returns a tuple of (line1, line2) for multi-line display.
+
+    Examples:
+        12:00 -> ("Es ist", "zwölf Uhr")
+        12:05 -> ("Es ist fünf", "nach zwölf")
+        12:30 -> ("Es ist", "halb eins")
+        12:45 -> ("Es ist viertel", "vor eins")
+    """
+    # Round to nearest 5 minutes
+    minute = dt.minute
+    hour = dt.hour
+    rounded_minute = 5 * round(minute / 5)
+
+    # If rounded to 60, move to next hour
+    if rounded_minute == 60:
+        rounded_minute = 0
+        hour = (hour + 1) % 24
+
+    # Convert 24h to 12h format
+    hour_12 = hour % 12
+    if hour_12 == 0:
+        hour_12 = 12
+
+    # Next hour for "halb" and "vor" expressions
+    next_hour = (hour_12 % 12) + 1
+    if next_hour == 13:
+        next_hour = 1
+
+    # German hour names
+    hours = {
+        1: "eins", 2: "zwei", 3: "drei", 4: "vier", 5: "fünf", 6: "sechs",
+        7: "sieben", 8: "acht", 9: "neun", 10: "zehn", 11: "elf", 12: "zwölf"
+    }
+
+    # Special case: "ein Uhr" not "eins Uhr"
+    def hour_name(h, is_oclock=False):
+        if h == 1 and is_oclock:
+            return "ein"
+        return hours[h]
+
+    # Generate word clock string based on minutes
+    if rounded_minute == 0:
+        # Full hour: "Es ist zwölf Uhr"
+        line1 = "Es ist"
+        line2 = f"{hour_name(hour_12, True)} Uhr"
+
+    elif rounded_minute == 5:
+        # 5 after: "Es ist fünf nach zwölf"
+        line1 = "Es ist fünf"
+        line2 = f"nach {hour_name(hour_12)}"
+
+    elif rounded_minute == 10:
+        # 10 after: "Es ist zehn nach zwölf"
+        line1 = "Es ist zehn"
+        line2 = f"nach {hour_name(hour_12)}"
+
+    elif rounded_minute == 15:
+        # Quarter after: "Es ist viertel nach zwölf"
+        line1 = "Es ist viertel"
+        line2 = f"nach {hour_name(hour_12)}"
+
+    elif rounded_minute == 20:
+        # 20 after = 10 before half: "Es ist zehn vor halb eins"
+        line1 = "Es ist zehn vor"
+        line2 = f"halb {hour_name(next_hour)}"
+
+    elif rounded_minute == 25:
+        # 25 after = 5 before half: "Es ist fünf vor halb eins"
+        line1 = "Es ist fünf vor"
+        line2 = f"halb {hour_name(next_hour)}"
+
+    elif rounded_minute == 30:
+        # Half: "Es ist halb eins"
+        line1 = "Es ist"
+        line2 = f"halb {hour_name(next_hour)}"
+
+    elif rounded_minute == 35:
+        # 35 after = 5 after half: "Es ist fünf nach halb eins"
+        line1 = "Es ist fünf nach"
+        line2 = f"halb {hour_name(next_hour)}"
+
+    elif rounded_minute == 40:
+        # 40 after = 10 after half: "Es ist zehn nach halb eins"
+        line1 = "Es ist zehn nach"
+        line2 = f"halb {hour_name(next_hour)}"
+
+    elif rounded_minute == 45:
+        # Quarter before: "Es ist viertel vor eins"
+        line1 = "Es ist viertel"
+        line2 = f"vor {hour_name(next_hour)}"
+
+    elif rounded_minute == 50:
+        # 10 before: "Es ist zehn vor eins"
+        line1 = "Es ist zehn"
+        line2 = f"vor {hour_name(next_hour)}"
+
+    elif rounded_minute == 55:
+        # 5 before: "Es ist fünf vor eins"
+        line1 = "Es ist fünf"
+        line2 = f"vor {hour_name(next_hour)}"
+
+    else:
+        # Fallback (should not happen with proper rounding)
+        line1 = "Es ist"
+        line2 = f"{hour_name(hour_12, True)} Uhr"
+
+    return (line1, line2)
+
+
 def get_formatted_full_date(dt):
     """
     Format a date for display in header (e.g., "30. Jan 2026" in German, "Jan 30, 2026" in English)

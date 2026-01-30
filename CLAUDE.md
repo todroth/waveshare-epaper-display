@@ -92,17 +92,40 @@ The codebase uses a **provider pattern** with base classes that define contracts
 
 ### SVG Template System
 
-Templates are in `screen-template.{1-5}.svg` corresponding to SCREEN_LAYOUT values.
+Templates are in `screen-template.{1-6}.svg` corresponding to SCREEN_LAYOUT values.
 
 The `update_svg()` function (utility.py) performs simple string replacement:
 - Takes template filename, output filename, and dictionary of replacements
 - Keys in dictionary (e.g., `'TIME_NOW'`, `'CAL_DESC_1'`) are replaced in SVG
 - Multiple scripts update the same output SVG sequentially
+- **Important architectural principle**: All scripts generate ALL possible tokens, and templates use only what they need. This keeps scripts template-agnostic and maintainable.
 
 Common tokens:
-- Weather: `LOW_ONE`, `HIGH_ONE`, `ICON_ONE`, `WEATHER_DESC_1/2`, `TIME_NOW`, `DAY_ONE`, `ALERT_MESSAGE`
+- Weather: `LOW_ONE`, `HIGH_ONE`, `ICON_ONE`, `WEATHER_DESC_1/2`, `DAY_ONE`, `DAY_NAME`, `ALERT_MESSAGE`
 - Calendar: `CAL_DATETIME_1` through `CAL_DATETIME_10`, `CAL_DESC_1` through `CAL_DESC_10`
+- Time (digital): `TIME_NOW`, `TIME_NOW_FONT_SIZE`, `HOUR_NOW` - used by templates 1-5
+- Time (word clock): `TIME_NOW_LINE1`, `TIME_NOW_LINE2` - used by template 6
 - Custom: User-defined in screen-custom.svg and screen-custom-get.py
+
+**Template Independence**: Scripts like `screen-weather-get.py` always output both digital time (`TIME_NOW`) and word clock time (`TIME_NOW_LINE1`, `TIME_NOW_LINE2`). Each template simply ignores the tokens it doesn't use. This means:
+- No conditional logic based on template selection in scripts
+- Easy to add new templates without modifying scripts
+- Scripts remain clean and maintainable
+
+#### Layout 6: German Word Clock
+
+Template 6 (`screen-template.6.svg`) features a German word clock display that:
+- Shows time in words with 5-minute resolution (e.g., "Es ist halb eins")
+- Only requires updates every 5 minutes instead of every minute
+- Uses two-line display for better readability (`TIME_NOW_LINE1`, `TIME_NOW_LINE2`)
+- Implements traditional German time expressions using "halb", "viertel", "nach", "vor"
+- Function: `utility.get_word_clock_time()` converts datetime to German word format
+
+When adding new templates:
+1. Create new `screen-template.N.svg` with desired layout
+2. Use any combination of existing tokens
+3. No need to modify any Python scripts - all tokens are already generated
+4. Unused tokens in SVG are simply left as-is (will be ignored)
 
 ### Configuration (env.sh)
 

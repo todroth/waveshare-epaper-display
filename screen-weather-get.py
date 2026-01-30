@@ -7,7 +7,7 @@ import logging
 from weather_providers import climacell, openweathermap, metofficedatahub, metno, meteireann, accuweather, visualcrossing, weathergov, smhi, brightsky
 from alert_providers import metofficerssfeed, weathergovalerts
 from alert_providers import meteireann as meteireannalertprovider
-from utility import get_formatted_time, get_formatted_full_date, update_svg, configure_logging, configure_locale
+from utility import get_formatted_time, get_formatted_full_date, get_word_clock_time, update_svg, configure_logging, configure_locale
 import textwrap
 import html
 
@@ -170,23 +170,36 @@ def main():
     alert_message = get_alert_message(location_lat, location_long)
     alert_message = format_alert_description(alert_message)
 
-    time_now = get_formatted_time(datetime.datetime.now())
-    time_now_font_size = "100px"
+    # Prepare all time formats - templates use what they need
+    now = datetime.datetime.now()
 
+    # Digital time format (for templates 1-5)
+    time_now = get_formatted_time(now)
+    time_now_font_size = "100px"
     if len(time_now) > 6:
         time_now_font_size = str(100 - (len(time_now)-5) * 5) + "px"
 
+    # Word clock format (for template 6)
+    word_time_line1, word_time_line2 = get_word_clock_time(now)
+
+    # Single output dictionary with all possible values
+    # Templates will use what they need and ignore the rest
     output_dict = {
         'LOW_ONE': "{}{}".format(str(round(weather['temperatureMin'])), degrees),
         'HIGH_ONE': "{}{}".format(str(round(weather['temperatureMax'])), degrees),
         'ICON_ONE': weather["icon"],
         'WEATHER_DESC_1': weather_desc[1],
         'WEATHER_DESC_2': weather_desc[2],
+        # Digital time (templates 1-5)
         'TIME_NOW_FONT_SIZE': time_now_font_size,
         'TIME_NOW': time_now,
-        'HOUR_NOW': datetime.datetime.now().strftime("%-I %p"),
-        'DAY_ONE': get_formatted_full_date(datetime.datetime.now()),
-        'DAY_NAME': datetime.datetime.now().strftime("%A"),
+        # Word clock time (template 6)
+        'TIME_NOW_LINE1': word_time_line1,
+        'TIME_NOW_LINE2': word_time_line2,
+        # Common fields
+        'HOUR_NOW': now.strftime("%-I %p"),
+        'DAY_ONE': get_formatted_full_date(now),
+        'DAY_NAME': now.strftime("%A"),
         'ALERT_MESSAGE_VISIBILITY': "visible" if alert_message else "hidden",
         'ALERT_MESSAGE': alert_message
     }

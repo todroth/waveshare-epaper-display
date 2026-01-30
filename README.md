@@ -325,9 +325,9 @@ This is an optional step.  There are a few different layouts to choose from.
 | --- | --- |
 | [![Layout 3](screenshots/003.png)](screenshots/003.png) | [![Layout 4](screenshots/004.png)](screenshots/004.png) |
 
-| `export SCREEN_LAYOUT=5` <br />Calendar entries on left, with a month calendar for at-a-glance |  |
+| `export SCREEN_LAYOUT=5` <br />Calendar entries on left, with a month calendar for at-a-glance | `export SCREEN_LAYOUT=6` <br />German word clock (5-minute resolution) |
 | --- | --- |
-| [![Layout 5](screenshots/005.png)](screenshots/005.png) | |
+| [![Layout 5](screenshots/005.png)](screenshots/005.png) | Layout 6 shows time as German words<br/>(e.g., "Es ist halb drei")<br/>Only needs update every 5 minutes |
 
 
 
@@ -348,6 +348,12 @@ Once you've proven that the run works, and an image is sent to your epaper displ
 Add this entry so it runs every minute:
 
     * * * * * cd /home/pi/waveshare-epaper-display && bash run.sh > run.log 2>&1
+
+**Note for Layout 6 (Word Clock):** Since the word clock only changes every 5 minutes, you can reduce display updates to every 5 minutes:
+
+    */5 * * * * cd /home/pi/waveshare-epaper-display && bash run.sh > run.log 2>&1
+
+This reduces e-paper wear while maintaining accurate time display.
 
 This will cause the script to run every minute, and write the output as well as errors to the run.log file.
 
