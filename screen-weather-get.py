@@ -4,7 +4,7 @@ import datetime
 import sys
 import os
 import logging
-from weather_providers import climacell, openweathermap, metofficedatahub, metno, meteireann, accuweather, visualcrossing, weathergov, smhi
+from weather_providers import climacell, openweathermap, metofficedatahub, metno, meteireann, accuweather, visualcrossing, weathergov, smhi, brightsky
 from alert_providers import metofficerssfeed, weathergovalerts
 from alert_providers import meteireann as meteireannalertprovider
 from utility import get_formatted_time, update_svg, configure_logging, configure_locale
@@ -39,6 +39,7 @@ def get_weather(location_lat, location_long, units):
     use_met_eireann = os.getenv("WEATHER_MET_EIREANN")
     weathergov_self_id = os.getenv("WEATHERGOV_SELF_IDENTIFICATION")
     smhi_self_id = os.getenv("SMHI_SELF_IDENTIFICATION")
+    brightsky_self_id = os.getenv("BRIGHTSKY_SELF_IDENTIFICATION")
 
     if (
         not climacell_apikey
@@ -50,8 +51,9 @@ def get_weather(location_lat, location_long, units):
         and not use_met_eireann
         and not weathergov_self_id
         and not smhi_self_id
+        and not brightsky_self_id
     ):
-        logging.error("No weather provider has been configured (Climacell, OpenWeatherMap, Weather.gov, MetOffice, AccuWeather, Met.no, Met Eireann, VisualCrossing...)")
+        logging.error("No weather provider has been configured (Climacell, OpenWeatherMap, Weather.gov, MetOffice, AccuWeather, Met.no, Met Eireann, VisualCrossing, SMHI, Brightsky...)")
         sys.exit(1)
 
     if visualcrossing_apikey:
@@ -98,6 +100,10 @@ def get_weather(location_lat, location_long, units):
     elif smhi_self_id:
         logging.info("Getting weather from SMHI")
         weather_provider = smhi.SMHI(smhi_self_id, location_lat, location_long, units)
+
+    elif brightsky_self_id:
+        logging.info("Getting weather from Brightsky")
+        weather_provider = brightsky.Brightsky(brightsky_self_id, location_lat, location_long, units)
 
     weather = weather_provider.get_weather()
     logging.info("weather - {}".format(weather))

@@ -18,6 +18,7 @@ The screen will display date, time, weather icon with high and low, and calendar
   - [Climacell (tomorrow.io)](#climacell-tomorrowio)
   - [VisualCrossing](#visualcrossing)
   - [SMHI (Sweden)](#smhi-sweden)
+  - [Brightsky (Germany - DWD)](#brightsky-germany---dwd)
 - [Pick a severe weather warning provider](#pick-a-severe-weather-warning-provider)
   - [Met Office (UK)](#met-office-uk-1)
   - [Weather.gov (US)](#weathergov-us-1)
@@ -109,7 +110,7 @@ As needed, change the temperature format (CELSIUS or FAHRENHEIT).
 
 ## Pick a Weather provider
 
-You can pick between OpenWeatherMap, Met Office, AccuWeather, Met.no, Weeather.gov, VisualCrossing, and Climacell to provide temperature and weather forecasts.
+You can pick between OpenWeatherMap, Met Office, AccuWeather, Met.no, Weather.gov, VisualCrossing, Climacell, SMHI, and Brightsky to provide temperature and weather forecasts.
 You can switch between them too, by providing the keys and commenting out other ones, but remember to delete the `cache_weather.json` if you switch weather providers.
 
 ### OpenWeatherMap
@@ -187,6 +188,14 @@ Register on [VisualCrossing](https://www.visualcrossing.com/). Under Account Det
 SMHI requires you to identify yourself.  Just set your own email,
 
     export SMHI_SELF_IDENTIFICATION=you@example.com
+
+### Brightsky (Germany - DWD)
+
+Brightsky is a free JSON API for DWD (Deutscher Wetterdienst) open weather data. It provides weather observations and forecasts for Germany and worldwide (at lower density outside Germany). No API key is required, but you should identify yourself with your email:
+
+    export BRIGHTSKY_SELF_IDENTIFICATION=you@example.com
+
+More information: https://brightsky.dev/
 
 ## Pick a severe weather warning provider
 
