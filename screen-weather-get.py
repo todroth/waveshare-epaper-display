@@ -5,7 +5,7 @@ import sys
 import os
 import logging
 from weather_providers import climacell, openweathermap, metofficedatahub, metno, meteireann, accuweather, visualcrossing, weathergov, smhi, brightsky
-from alert_providers import metofficerssfeed, weathergovalerts
+from alert_providers import metofficerssfeed, weathergovalerts, brightsky as brightskyalerts
 from alert_providers import meteireann as meteireannalertprovider
 from utility import get_formatted_time, get_formatted_full_date, get_word_clock_time, update_svg, configure_logging, configure_locale
 import textwrap
@@ -125,8 +125,14 @@ def get_alert_message(location_lat, location_long):
     alert_metoffice_feed_url = os.getenv("ALERT_METOFFICE_FEED_URL")
     alert_weathergov_self_id = os.getenv("ALERT_WEATHERGOV_SELF_IDENTIFICATION")
     alert_meteireann_feed_url = os.getenv("ALERT_MET_EIREANN_FEED_URL")
+    alert_brightsky_self_id = os.getenv("ALERT_BRIGHTSKY_SELF_IDENTIFICATION")
 
-    if alert_weathergov_self_id:
+    if alert_brightsky_self_id:
+        logging.info("Getting weather alert from Brightsky (DWD)")
+        alert_provider = brightskyalerts.BrightskyAlerts(location_lat, location_long, alert_brightsky_self_id)
+        alert_message = alert_provider.get_alert()
+
+    elif alert_weathergov_self_id:
         logging.info("Getting weather alert from Weather.gov API")
         alert_provider = weathergovalerts.WeatherGovAlerts(location_lat, location_long, alert_weathergov_self_id)
         alert_message = alert_provider.get_alert()

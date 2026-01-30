@@ -20,6 +20,7 @@ The screen will display date, time, weather icon with high and low, and calendar
   - [SMHI (Sweden)](#smhi-sweden)
   - [Brightsky (Germany - DWD)](#brightsky-germany---dwd)
 - [Pick a severe weather warning provider](#pick-a-severe-weather-warning-provider)
+  - [Brightsky (Germany - DWD)](#brightsky-germany---dwd-1)
   - [Met Office (UK)](#met-office-uk-1)
   - [Weather.gov (US)](#weathergov-us-1)
   - [Met Éireann (Ireland)](#met-éireann-ireland-1)
@@ -220,6 +221,16 @@ More information: https://brightsky.dev/
 ## Pick a severe weather warning provider
 
 This is an optional step.  By doing nothing you simply won't see severe weather warnings.
+
+### Brightsky (Germany - DWD)
+
+Brightsky provides access to weather alerts from DWD (Deutscher Wetterdienst). This works well with the Brightsky weather provider and automatically displays alerts in German or English based on your `LANG` setting.
+
+    export ALERT_BRIGHTSKY_SELF_IDENTIFICATION=you@example.com
+
+Note: You can use the same email as for the Brightsky weather provider. The alerts will be displayed based on your configured location (latitude/longitude).
+
+More information: https://brightsky.dev/
 
 ### Met Office (UK)
 

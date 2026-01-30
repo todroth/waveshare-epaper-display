@@ -87,8 +87,9 @@ The codebase uses a **provider pattern** with base classes that define contracts
 
 #### Alert Providers (`alert_providers/`)
 - Base: `BaseAlertProvider` (defines `get_alert()` returning string)
-- Implementations: Met Office RSS Feed, Weather.gov, Met Éireann
+- Implementations: Brightsky (DWD), Met Office RSS Feed, Weather.gov, Met Éireann
 - Displays severe weather warnings if configured
+- Brightsky alerts use language from LANG variable (headline_de vs headline_en)
 
 ### SVG Template System
 
