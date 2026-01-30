@@ -193,9 +193,9 @@ def main():
         # Digital time (templates 1-5)
         'TIME_NOW_FONT_SIZE': time_now_font_size,
         'TIME_NOW': time_now,
-        # Word clock time (template 6)
-        'TIME_NOW_LINE1': word_time_line1,
-        'TIME_NOW_LINE2': word_time_line2,
+        # Word clock time (template 6) - different prefix to avoid collision with TIME_NOW
+        'WORD_TIME_LINE1': word_time_line1,
+        'WORD_TIME_LINE2': word_time_line2,
         # Common fields
         'HOUR_NOW': now.strftime("%-I %p"),
         'DAY_ONE': get_formatted_full_date(now),
