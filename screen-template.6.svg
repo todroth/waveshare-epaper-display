@@ -45,8 +45,8 @@
 
     <!-- Word clock time display - top left, same position as digital time in template 1 -->
     <text id="texttime" x="20" y="90" style="font-weight:bold;font-size:36px;line-height:1.2;font-family:sans-serif;text-anchor:beginning">
-        <tspan x="20" dy="0">TIME_NOW_LINE1</tspan>
-        <tspan x="20" dy="42">TIME_NOW_LINE2</tspan>
+        <tspan x="20" dy="0">WORD_TIME_LINE1</tspan>
+        <tspan x="20" dy="42">WORD_TIME_LINE2</tspan>
     </text>
 
     <use id="customdata" href="screen-output-custom-temp.svg" />

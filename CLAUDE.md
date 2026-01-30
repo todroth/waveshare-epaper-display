@@ -104,8 +104,10 @@ Common tokens:
 - Weather: `LOW_ONE`, `HIGH_ONE`, `ICON_ONE`, `WEATHER_DESC_1/2`, `DAY_ONE`, `DAY_NAME`, `ALERT_MESSAGE`
 - Calendar: `CAL_DATETIME_1` through `CAL_DATETIME_10`, `CAL_DESC_1` through `CAL_DESC_10`
 - Time (digital): `TIME_NOW`, `TIME_NOW_FONT_SIZE`, `HOUR_NOW` - used by templates 1-5
-- Time (word clock): `TIME_NOW_LINE1`, `TIME_NOW_LINE2` - used by template 6
+- Time (word clock): `WORD_TIME_LINE1`, `WORD_TIME_LINE2` - used by template 6
 - Custom: User-defined in screen-custom.svg and screen-custom-get.py
+
+**Note on token naming**: Word clock tokens use `WORD_TIME_` prefix instead of `TIME_NOW_` to avoid string replacement collisions (e.g., if `TIME_NOW` is replaced first, `TIME_NOW_LINE1` would become `22:03_LINE1`).
 
 **Template Independence**: Scripts like `screen-weather-get.py` always output both digital time (`TIME_NOW`) and word clock time (`TIME_NOW_LINE1`, `TIME_NOW_LINE2`). Each template simply ignores the tokens it doesn't use. This means:
 - No conditional logic based on template selection in scripts
@@ -117,7 +119,7 @@ Common tokens:
 Template 6 (`screen-template.6.svg`) features a German word clock display that:
 - Shows time in words with 5-minute resolution (e.g., "Es ist halb eins")
 - Only requires updates every 5 minutes instead of every minute
-- Uses two-line display for better readability (`TIME_NOW_LINE1`, `TIME_NOW_LINE2`)
+- Uses two-line display for better readability (`WORD_TIME_LINE1`, `WORD_TIME_LINE2`)
 - Implements traditional German time expressions using "halb", "viertel", "nach", "vor"
 - Function: `utility.get_word_clock_time()` converts datetime to German word format
 
