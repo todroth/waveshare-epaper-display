@@ -110,7 +110,7 @@ All configuration is environment-based:
 - **Required**: WAVESHARE_EPD75_VERSION (1, 2, or 2B), WEATHER_LATITUDE, WEATHER_LONGITUDE
 - **Weather provider**: One of the *_APIKEY or *_SELF_IDENTIFICATION variables
 - **Calendar provider**: One of GOOGLE_CALENDAR_ID, OUTLOOK_CALENDAR_ID, ICS_CALENDAR_URL, or CALDAV_* variables
-- **Optional**: Alert providers, cache TTLs, SCREEN_LAYOUT, LOG_LEVEL, LANG, WEATHER_LANGUAGE, WEATHER_FORMAT, privacy modes
+- **Optional**: Alert providers, cache TTLs, SCREEN_LAYOUT, LOG_LEVEL, LANG, WEATHER_FORMAT, privacy modes
 
 ### Caching Strategy
 
@@ -123,24 +123,28 @@ To force refresh, delete the relevant cache file.
 
 ### Localization
 
-The application supports localization through two environment variables:
+The application supports localization through a single environment variable:
 
-- **LANG**: Controls date/time formatting via Python's locale system (e.g., `de_DE.UTF-8`, `en_US.UTF-8`)
-  - Used by `utility.get_formatted_time()` and `utility.get_formatted_date()`
-  - Uses `babel.dates.format_date()` for locale-aware date formatting (e.g., "Fr, 6. Feb" in German)
+- **LANG**: Controls ALL language-related functionality (e.g., `de_DE.UTF-8`, `en_US.UTF-8`)
+
+  **Date/Time formatting:**
+  - Used by `utility.get_formatted_time()`, `utility.get_formatted_date()`, and `utility.get_formatted_full_date()`
+  - Uses `babel.dates.format_date()` for locale-aware date formatting (e.g., "30. Jan 2026" in German vs "Jan 30, 2026" in English)
   - Uses `babel.dates.format_time()` for time formatting
-  - Uses `humanize` for natural language dates (today/tomorrow/yesterday in local language)
+  - Uses `humanize` for natural language dates (Heute/Morgen vs Today/Tomorrow)
 
-- **WEATHER_LANGUAGE**: Controls weather description language (e.g., `en`, `de`)
+  **Weather descriptions:**
+  - Language code is extracted from LANG (e.g., "de_DE.UTF-8" → "de")
   - Passed to weather providers that support language parameters
   - OpenWeatherMap: Uses native `lang` parameter in API requests
   - Brightsky: Uses translation dictionaries for condition descriptions
   - Other providers: May or may not support language selection
 
-When adding new weather providers, consider:
+When adding new weather providers:
+- Extract language code from LANG in screen-weather-get.py (already implemented)
+- Accept `language` parameter in provider's `__init__()` method
 - If the provider API supports a language parameter, add it to the API request URL
 - If not, create translation dictionaries like in `brightsky.py`
-- Always accept `language` parameter in `__init__()` method
 
 ## Git Submodule
 

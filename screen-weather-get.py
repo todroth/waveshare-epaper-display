@@ -40,7 +40,11 @@ def get_weather(location_lat, location_long, units):
     weathergov_self_id = os.getenv("WEATHERGOV_SELF_IDENTIFICATION")
     smhi_self_id = os.getenv("SMHI_SELF_IDENTIFICATION")
     brightsky_self_id = os.getenv("BRIGHTSKY_SELF_IDENTIFICATION")
-    weather_language = os.getenv("WEATHER_LANGUAGE", "en")
+
+    # Extract language code from LANG environment variable (e.g., "de_DE.UTF-8" -> "de")
+    lang_env = os.getenv("LANG", "en_US.UTF-8")
+    weather_language = lang_env.split("_")[0] if "_" in lang_env else lang_env.split(".")[0]
+    logging.debug(f"Detected language from LANG: {weather_language}")
 
     if (
         not climacell_apikey
