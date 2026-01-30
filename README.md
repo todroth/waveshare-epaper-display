@@ -340,6 +340,10 @@ This is an optional step.  There are a few different layouts to choose from.
 | --- | --- |
 | [![Layout 5](screenshots/005.png)](screenshots/005.png) | Layout 6 shows time as German words<br/>(e.g., "Es ist halb drei")<br/>Only needs update every 5 minutes |
 
+| `export SCREEN_LAYOUT=7` <br />Sunrise and sunset times instead of current time |
+| --- |
+| Layout 7 is like Layout 1 but shows sunrise/sunset times with a sun icon<br/>No flickering updates needed during the day |
+
 
 
 

@@ -93,7 +93,7 @@ The codebase uses a **provider pattern** with base classes that define contracts
 
 ### SVG Template System
 
-Templates are in `screen-template.{1-6}.svg` corresponding to SCREEN_LAYOUT values.
+Templates are in `screen-template.{1-7}.svg` corresponding to SCREEN_LAYOUT values.
 
 The `update_svg()` function (utility.py) performs simple string replacement:
 - Takes template filename, output filename, and dictionary of replacements
@@ -106,6 +106,7 @@ Common tokens:
 - Calendar: `CAL_DATETIME_1` through `CAL_DATETIME_10`, `CAL_DESC_1` through `CAL_DESC_10`
 - Time (digital): `TIME_NOW`, `TIME_NOW_FONT_SIZE`, `HOUR_NOW` - used by templates 1-5
 - Time (word clock): `WORD_TIME_LINE1`, `WORD_TIME_LINE2` - used by template 6
+- Sunrise/Sunset: `SUNRISE_TIME`, `SUNSET_TIME` - used by template 7
 - Custom: User-defined in screen-custom.svg and screen-custom-get.py
 
 **Note on token naming**: Word clock tokens use `WORD_TIME_` prefix instead of `TIME_NOW_` to avoid string replacement collisions (e.g., if `TIME_NOW` is replaced first, `TIME_NOW_LINE1` would become `22:03_LINE1`).
@@ -123,6 +124,16 @@ Template 6 (`screen-template.6.svg`) features a German word clock display that:
 - Uses two-line display for better readability (`WORD_TIME_LINE1`, `WORD_TIME_LINE2`)
 - Implements traditional German time expressions using "halb", "viertel", "nach", "vor"
 - Function: `utility.get_word_clock_time()` converts datetime to German word format
+
+#### Layout 7: Sunrise/Sunset Times
+
+Template 7 (`screen-template.7.svg`) shows sunrise and sunset times instead of current time:
+- Based on layout 1 but replaces the time display with sunrise/sunset information
+- Uses `astral` library to calculate daily sunrise/sunset times based on location coordinates
+- Displays sun icon and times with up/down arrows (↑ sunrise, ↓ sunset)
+- Avoids frequent updates and screen flickering throughout the day
+- Function: `screen-weather-get.get_sunrise_sunset()` calculates times using astral library
+- Tokens: `SUNRISE_TIME`, `SUNSET_TIME`
 
 When adding new templates:
 1. Create new `screen-template.N.svg` with desired layout

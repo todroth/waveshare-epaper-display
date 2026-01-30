@@ -10,6 +10,8 @@ from alert_providers import meteireann as meteireannalertprovider
 from utility import get_formatted_time, get_formatted_full_date, get_word_clock_time, update_svg, configure_logging, configure_locale
 import textwrap
 import html
+from astral import LocationInfo
+from astral.sun import sun
 
 configure_locale()
 configure_logging()
@@ -116,6 +118,23 @@ def get_weather(location_lat, location_long, units):
     return weather
 
 
+def get_sunrise_sunset(location_lat, location_long):
+    """Calculate sunrise and sunset times for the current day"""
+    try:
+        location = LocationInfo(latitude=float(location_lat), longitude=float(location_long))
+        s = sun(location.observer, date=datetime.date.today())
+
+        # Format times as HH:MM
+        sunrise_time = s['sunrise'].strftime("%-H:%M")
+        sunset_time = s['sunset'].strftime("%-H:%M")
+
+        logging.debug(f"Sunrise: {sunrise_time}, Sunset: {sunset_time}")
+        return sunrise_time, sunset_time
+    except Exception as e:
+        logging.error(f"Error calculating sunrise/sunset: {e}")
+        return "—", "—"
+
+
 def format_alert_description(alert_message):
     return html.escape(alert_message)
 
@@ -188,6 +207,9 @@ def main():
     # Word clock format (for template 6)
     word_time_line1, word_time_line2 = get_word_clock_time(now)
 
+    # Sunrise/sunset times (for template 7)
+    sunrise_time, sunset_time = get_sunrise_sunset(location_lat, location_long)
+
     # Single output dictionary with all possible values
     # Templates will use what they need and ignore the rest
     output_dict = {
@@ -202,6 +224,9 @@ def main():
         # Word clock time (template 6) - different prefix to avoid collision with TIME_NOW
         'WORD_TIME_LINE1': word_time_line1,
         'WORD_TIME_LINE2': word_time_line2,
+        # Sunrise/sunset times (template 7)
+        'SUNRISE_TIME': sunrise_time,
+        'SUNSET_TIME': sunset_time,
         # Common fields
         'HOUR_NOW': now.strftime("%-I %p"),
         'DAY_ONE': get_formatted_full_date(now),
