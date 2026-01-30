@@ -153,6 +153,26 @@ def get_formatted_time(dt):
     return formatted_time
 
 
+def get_formatted_full_date(dt):
+    """
+    Format a date for display in header (e.g., "30. Jan 2026" in German, "Jan 30, 2026" in English)
+    """
+    try:
+        current_locale = locale.getlocale()[0]  # de_DE, en_GB, etc.
+        short_locale = current_locale.split("_")[0] if current_locale else "en"
+
+        if short_locale == "de":
+            # German format: "30. Jan 2026"
+            return format_date(dt, format="d. MMM yyyy", locale=current_locale)
+        else:
+            # English format: "Jan 30, 2026"
+            return format_date(dt, format="MMM d, yyyy", locale=current_locale)
+    except Exception as e:
+        logging.debug(f"Babel full date formatting failed: {e}, falling back to strftime")
+        # Fallback to strftime
+        return dt.strftime("%b %-d, %Y")
+
+
 def get_formatted_date(dt, include_time=True):
     today = datetime.datetime.today()
     yesterday = today - datetime.timedelta(days=1)

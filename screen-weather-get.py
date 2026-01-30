@@ -7,7 +7,7 @@ import logging
 from weather_providers import climacell, openweathermap, metofficedatahub, metno, meteireann, accuweather, visualcrossing, weathergov, smhi, brightsky
 from alert_providers import metofficerssfeed, weathergovalerts
 from alert_providers import meteireann as meteireannalertprovider
-from utility import get_formatted_time, update_svg, configure_logging, configure_locale
+from utility import get_formatted_time, get_formatted_full_date, update_svg, configure_logging, configure_locale
 import textwrap
 import html
 
@@ -181,7 +181,7 @@ def main():
         'TIME_NOW_FONT_SIZE': time_now_font_size,
         'TIME_NOW': time_now,
         'HOUR_NOW': datetime.datetime.now().strftime("%-I %p"),
-        'DAY_ONE': datetime.datetime.now().strftime("%b %-d, %Y"),
+        'DAY_ONE': get_formatted_full_date(datetime.datetime.now()),
         'DAY_NAME': datetime.datetime.now().strftime("%A"),
         'ALERT_MESSAGE_VISIBILITY': "visible" if alert_message else "hidden",
         'ALERT_MESSAGE': alert_message
