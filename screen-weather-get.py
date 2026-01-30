@@ -40,6 +40,7 @@ def get_weather(location_lat, location_long, units):
     weathergov_self_id = os.getenv("WEATHERGOV_SELF_IDENTIFICATION")
     smhi_self_id = os.getenv("SMHI_SELF_IDENTIFICATION")
     brightsky_self_id = os.getenv("BRIGHTSKY_SELF_IDENTIFICATION")
+    weather_language = os.getenv("WEATHER_LANGUAGE", "en")
 
     if (
         not climacell_apikey
@@ -91,7 +92,8 @@ def get_weather(location_lat, location_long, units):
         weather_provider = openweathermap.OpenWeatherMap(openweathermap_apikey,
                                                          location_lat,
                                                          location_long,
-                                                         units)
+                                                         units,
+                                                         weather_language)
 
     elif climacell_apikey:
         logging.info("Getting weather from Climacell")
@@ -103,7 +105,7 @@ def get_weather(location_lat, location_long, units):
 
     elif brightsky_self_id:
         logging.info("Getting weather from Brightsky")
-        weather_provider = brightsky.Brightsky(brightsky_self_id, location_lat, location_long, units)
+        weather_provider = brightsky.Brightsky(brightsky_self_id, location_lat, location_long, units, weather_language)
 
     weather = weather_provider.get_weather()
     logging.info("weather - {}".format(weather))

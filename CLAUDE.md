@@ -110,7 +110,7 @@ All configuration is environment-based:
 - **Required**: WAVESHARE_EPD75_VERSION (1, 2, or 2B), WEATHER_LATITUDE, WEATHER_LONGITUDE
 - **Weather provider**: One of the *_APIKEY or *_SELF_IDENTIFICATION variables
 - **Calendar provider**: One of GOOGLE_CALENDAR_ID, OUTLOOK_CALENDAR_ID, ICS_CALENDAR_URL, or CALDAV_* variables
-- **Optional**: Alert providers, cache TTLs, SCREEN_LAYOUT, LOG_LEVEL, LANG, privacy modes
+- **Optional**: Alert providers, cache TTLs, SCREEN_LAYOUT, LOG_LEVEL, LANG, WEATHER_LANGUAGE, WEATHER_FORMAT, privacy modes
 
 ### Caching Strategy
 
@@ -120,6 +120,25 @@ Files are cached with TTL-based staleness checking (utility.py `is_stale()`):
 - OAuth tokens: `token.pickle` (Google), `outlooktoken.bin` (Outlook)
 
 To force refresh, delete the relevant cache file.
+
+### Localization
+
+The application supports localization through two environment variables:
+
+- **LANG**: Controls date/time formatting via Python's locale system (e.g., `de_DE.UTF-8`, `en_US.UTF-8`)
+  - Used by `utility.get_formatted_time()` and `utility.get_formatted_date()`
+  - Uses `babel` for time formatting and `humanize` for natural language dates
+
+- **WEATHER_LANGUAGE**: Controls weather description language (e.g., `en`, `de`)
+  - Passed to weather providers that support language parameters
+  - OpenWeatherMap: Uses native `lang` parameter in API requests
+  - Brightsky: Uses translation dictionaries for condition descriptions
+  - Other providers: May or may not support language selection
+
+When adding new weather providers, consider:
+- If the provider API supports a language parameter, add it to the API request URL
+- If not, create translation dictionaries like in `brightsky.py`
+- Always accept `language` parameter in `__init__()` method
 
 ## Git Submodule
 

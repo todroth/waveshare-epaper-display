@@ -3,11 +3,12 @@ from weather_providers.base_provider import BaseWeatherProvider
 
 
 class OpenWeatherMap(BaseWeatherProvider):
-    def __init__(self, openweathermap_apikey, location_lat, location_long, units):
+    def __init__(self, openweathermap_apikey, location_lat, location_long, units, language="en"):
         self.openweathermap_apikey = openweathermap_apikey
         self.location_lat = location_lat
         self.location_long = location_long
         self.units = units
+        self.language = language
 
     # Map OpenWeatherMap icons to local icons
     # Reference: https://openweathermap.org/weather-conditions
@@ -82,8 +83,8 @@ class OpenWeatherMap(BaseWeatherProvider):
     # https://openweathermap.org/api/one-call-api
     def get_weather(self):
 
-        url = ("https://api.openweathermap.org/data/3.0/onecall?lat={}&lon={}&exclude=current,minutely,hourly&units={}&appid={}"
-               .format(self.location_lat, self.location_long, self.units, self.openweathermap_apikey))
+        url = ("https://api.openweathermap.org/data/3.0/onecall?lat={}&lon={}&exclude=current,minutely,hourly&units={}&lang={}&appid={}"
+               .format(self.location_lat, self.location_long, self.units, self.language, self.openweathermap_apikey))
         response_data = self.get_response_json(url)
         logging.debug(response_data)
         weather_data = response_data["daily"][0]

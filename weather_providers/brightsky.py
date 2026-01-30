@@ -4,11 +4,12 @@ import datetime
 
 
 class Brightsky(BaseWeatherProvider):
-    def __init__(self, self_identification, location_lat, location_long, units):
+    def __init__(self, self_identification, location_lat, location_long, units, language="en"):
         self.self_identification = self_identification
         self.location_lat = location_lat
         self.location_long = location_long
         self.units = units
+        self.language = language
 
     # Map Brightsky icon names to local icons
     # Reference: https://brightsky.dev/docs/
@@ -37,8 +38,9 @@ class Brightsky(BaseWeatherProvider):
         return icon
 
     # Map Brightsky condition to description
-    def get_description_from_condition(self, condition):
-        condition_dict = {
+    def get_description_from_condition(self, condition, language="en"):
+        # English descriptions
+        condition_dict_en = {
             "dry": "Clear",
             "fog": "Foggy",
             "rain": "Rainy",
@@ -47,6 +49,23 @@ class Brightsky(BaseWeatherProvider):
             "hail": "Hail",
             "thunderstorm": "Thunderstorm",
         }
+
+        # German descriptions
+        condition_dict_de = {
+            "dry": "Klar",
+            "fog": "Neblig",
+            "rain": "Regnerisch",
+            "sleet": "Graupelschauer",
+            "snow": "Schnee",
+            "hail": "Hagel",
+            "thunderstorm": "Gewitter",
+        }
+
+        # Select the appropriate dictionary based on language
+        if language.lower().startswith("de"):
+            condition_dict = condition_dict_de
+        else:
+            condition_dict = condition_dict_en
 
         description = condition_dict.get(condition, condition.title())
         return description
@@ -105,7 +124,7 @@ class Brightsky(BaseWeatherProvider):
         weather["temperatureMin"] = temp_min
         weather["temperatureMax"] = temp_max
         weather["icon"] = self.get_icon_from_brightsky_icon(current_weather.get("icon", "cloudy"))
-        weather["description"] = self.get_description_from_condition(current_weather.get("condition", "dry"))
+        weather["description"] = self.get_description_from_condition(current_weather.get("condition", "dry"), self.language)
 
         logging.debug("get_weather() - {}".format(weather))
         return weather

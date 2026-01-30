@@ -108,6 +108,17 @@ As needed, change the temperature format (CELSIUS or FAHRENHEIT).
     export WEATHER_LONGITUDE=0.1963
     export WEATHER_FORMAT=CELSIUS
 
+Optionally, you can also set the language for weather descriptions:
+
+    export WEATHER_LANGUAGE=de
+
+Supported languages:
+- `en` - English (default)
+- `de` - German (Deutsch)
+- Other language codes depending on your weather provider (e.g., OpenWeatherMap supports many languages)
+
+Note: Not all weather providers support all languages. OpenWeatherMap supports a wide range of languages, while Brightsky currently supports English and German.
+
 ## Pick a Weather provider
 
 You can pick between OpenWeatherMap, Met Office, AccuWeather, Met.no, Weather.gov, VisualCrossing, Climacell, SMHI, and Brightsky to provide temperature and weather forecasts.
