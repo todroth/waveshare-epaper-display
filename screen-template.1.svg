@@ -6,7 +6,7 @@
         <use id="currentweathericon" href="icons/ICON_ONE.svg" />
     </g>
 
-    <text id="alertmessage" x="0" y="35" font-size="30px" style="font-weight:bold;font-size:30px;line-height:0%;font-family:'Nimbus Mono PS',monospace;text-anchor:beginning">ALERT_MESSAGE</text>
+    <text id="alertmessage" x="400" y="35" font-size="30px" style="font-weight:bold;font-size:30px;line-height:0%;font-family:'Nimbus Mono PS',monospace;text-anchor:middle">ALERT_MESSAGE</text>
     <text id="temphighlow" x="155" y="360" font-size="38px" style="font-size:38px;line-height:0%;font-family:sans-serif;text-anchor:middle">HIGH_ONE/LOW_ONE</text>
     <text id="weatherdesc1" x="155" y="390" font-size="38px" style="font-size:28px;line-height:0%;font-family:sans-serif;text-anchor:middle">WEATHER_DESC_1</text>
     <text id="weaetherdesc2" x="155" y="415" font-size="38px" style="font-size:28px;line-height:0%;font-family:sans-serif;text-anchor:middle">WEATHER_DESC_2</text>
@@ -41,9 +41,9 @@
 
     <text id="textday" x="600" y="148" style="text-anchor:middle;font-weight:600;font-size:47px;line-height:0%;font-family:sans-serif;">DAY_NAME</text>
 
-    <text id="textdate" x="600" y="203" style="text-anchor:middle;font-size:40px;line-height:0%;font-family:sans-serif;">DAY_ONE</text>
+    <text id="textdate" x="600" y="201" style="text-anchor:middle;font-size:40px;line-height:0%;font-family:sans-serif;">DAY_ONE</text>
 
-    <text id="texttime" x="20" y="148" font-size="TIME_NOW_FONT_SIZE" style="font-weight:bold;line-height:0%;font-family:sans-serif;text-anchor:beginning">TIME_NOW</text>
+    <text id="texttime" x="20" y="146" font-size="TIME_NOW_FONT_SIZE" style="font-weight:bold;line-height:0%;font-family:sans-serif;text-anchor:beginning">TIME_NOW</text>
 
     <use id="customdata" href="screen-output-custom-temp.svg" />
 
