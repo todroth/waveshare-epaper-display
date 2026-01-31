@@ -44,17 +44,17 @@
     <text id="textdate" x="600" y="190" style="text-anchor:middle;font-size:40px;line-height:0%;font-family:sans-serif;">DAY_ONE</text>
 
     <!-- Sunrise/Sunset section with icons -->
-    <g id="sunriseicon" transform="translate(120, 85) scale(1.3)">
+    <g id="sunriseicon" transform="translate(100, 85) scale(1.3)">
         <path d="M4 18H2M6.31412 12.3141L4.8999 10.8999M17.6858 12.3141L19.1 10.8999M22 18H20M7 18C7 15.2386 9.23858 13 12 13C14.7614 13 17 15.2386 17 18M22 22H2M16 6L12 2M12 2L8 6M12 2V9" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
     </g>
 
-    <text id="sunrisetime" x="160" y="110" font-size="32px" style="font-weight:bold;line-height:0%;font-family:sans-serif;text-anchor:beginning">SUNRISE_TIME</text>
+    <text id="sunrisetime" x="140" y="110" font-size="32px" style="font-weight:bold;line-height:0%;font-family:sans-serif;text-anchor:beginning">SUNRISE_TIME</text>
 
-    <g id="sunseticon" transform="translate(120, 125) scale(1.3)">
+    <g id="sunseticon" transform="translate(100, 125) scale(1.3)">
         <path d="M4 18H2M6.31412 12.3141L4.8999 10.8999M17.6858 12.3141L19.1 10.8999M22 18H20M7 18C7 15.2386 9.23858 13 12 13C14.7614 13 17 15.2386 17 18M22 22H2M16 5L12 9M12 9L8 5M12 9V2" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
     </g>
 
-    <text id="sunsettime" x="160" y="150" font-size="32px" style="font-weight:bold;line-height:0%;font-family:sans-serif;text-anchor:beginning">SUNSET_TIME</text>
+    <text id="sunsettime" x="140" y="150" font-size="32px" style="font-weight:bold;line-height:0%;font-family:sans-serif;text-anchor:beginning">SUNSET_TIME</text>
 
     <use id="customdata" href="screen-output-custom-temp.svg" />
 
